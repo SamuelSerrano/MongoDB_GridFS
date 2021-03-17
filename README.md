@@ -60,3 +60,15 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# Instalación MongoDB
+1. Agregar componente MongoDB
+   composer require jenssegers/mongodb
+
+2. Descargar dll mongoDB
+   https://pecl.php.net/package/mongodb
+
+3. Instalar dll en la carpeta php/ext de tu servidor
+
+4. Registrar en el php.ini la dll de MongoDB
+    extension=php_mongodb.ini
