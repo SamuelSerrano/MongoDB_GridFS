@@ -12,6 +12,6 @@ class Archivo extends MongoModel
     protected $collection = 'xml_nomina';
 
     protected $fillable = [
-        'idpgsql', 'cune','idfile','namefile' 
+        'idpgsql', 'cune','idfile','filename' 
     ];
 }
