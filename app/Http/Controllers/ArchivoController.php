@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Archivo;
+use App\Models\base;
 use \MongoDB;
 use ZipStream;
 use ZipStream\Option\Archive;
@@ -17,7 +18,7 @@ class ArchivoController extends Controller
      */
     public function index()
     {
-
+        //return  base::all();
         return Archivo::all();
     }
 
@@ -35,7 +36,7 @@ class ArchivoController extends Controller
         $zip = new ZipStream\ZipStream('example2.zip', $options);
 
 
-        $bucket = (new MongoDB\Client)->test->selectGridFSBucket();             
+        $bucket = (new MongoDB\Client)->repositorioNomina->selectGridFSBucket();             
         foreach($archivos as $archivo)
         {
             $stream = $bucket->openDownloadStream($archivo->idfile);
@@ -102,8 +103,8 @@ class ArchivoController extends Controller
 
         // SDSE 15/03/2021
         // Prueba Accediendo a un archivo para almacenarlo en la BD.
-        $file_name = "Factura_EAB_.pdf";
-        $bucket = (new MongoDB\Client)->test->selectGridFSBucket();
+        $file_name = "XML_Prueba.xml";
+        $bucket = (new MongoDB\Client)->repositorioNomina->selectGridFSBucket();
         $file = fopen($file_name, 'rb');
         $id_bucket = $bucket->uploadFromStream($file_name, $file);
         var_dump($id_bucket);
@@ -142,8 +143,14 @@ class ArchivoController extends Controller
      */
     public function show($id)
     {   
+        /*
+        Base de datos Mongo
         $archivo = Archivo::where('_id',$id)
                     ->get();
+        */
+        $archivo = base::where('id',$id)
+                    ->get();
+
         //$newsXML = new SimpleXMLElement(); 
         //$bucket = (new MongoDB\Client)->test->selectGridFSBucket();
         //$stream = $bucket->openDownloadStream($archivo[0]->id);
@@ -153,10 +160,12 @@ class ArchivoController extends Controller
        //return $archivo;
 
        // SDSE SE arma el stream para descargar
-        $bucket = (new MongoDB\Client)->test->selectGridFSBucket();
-        $stream = $bucket->openDownloadStream($archivo[0]->idfile);
+        $file_id = new \MongoDB\BSON\ObjectID($archivo[0]->id_file);
+        $bucket = (new MongoDB\Client)->repositorioNomina->selectGridFSBucket();
+        $stream = $bucket->openDownloadStream($file_id);
+        //$stream = $bucket->openDownloadStream($archivo[0]->idfile);
         $contents = stream_get_contents($stream); 
-
+        
         if(str_contains($archivo[0]->namefile,".xml"))
         {
             $header = ['Content-Type' => 'application/xml',            
