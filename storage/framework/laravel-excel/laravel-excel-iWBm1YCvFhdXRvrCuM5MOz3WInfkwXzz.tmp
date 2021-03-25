@@ -1,0 +1,5 @@
+1. Cómo enviar archivos por API?
+2. Para el caso de los externos, se podrá conectar la API a la base de datos donde se realizará la validación de los datos?
+3. Opciones de usuario externo ¿se conecta por login? ¿o va quemado desde el backend de el cliente?
+4. Tablas tipo de XML y tipo de Nota (Dian Master o API)
+5. ¿Colecciones diferentes para log de respuesta y de envío? ¿todo en un solo repositorio?|

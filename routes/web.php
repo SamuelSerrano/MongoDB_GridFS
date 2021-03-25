@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArchivoController;
+use App\Http\Controllers\ExcelController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,8 +15,11 @@ use App\Http\Controllers\ArchivoController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 Route::resource('archivos', ArchivoController::class);
+Route::resource('excel', ExcelController::class);
 Route::get('comprimir',[ArchivoController::class,'comprimir']);
+Route::post('list_import', [ExcelController::class,'importar'])->name('users.import.excel');
+Route::get('list_export', [ExcelController::class,'exportar'])->name('users.export');

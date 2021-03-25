@@ -10,4 +10,5 @@ class base extends Model
     use HasFactory;
     protected $connection = 'mysql';
     protected $table = 'xml';
+    protected $guarded = [];
 }

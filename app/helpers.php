@@ -1,4 +1,7 @@
 <?php
+
+    namespace App\helpers;
+
     function getConexionMysql(){
         return "mysql";
     }
