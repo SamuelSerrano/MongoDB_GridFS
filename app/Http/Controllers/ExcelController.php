@@ -93,8 +93,13 @@ class ExcelController extends Controller
     {
         $file = $request->file('file');
         try {
+            //$rows = Excel::toArray(new UsersImport,$file);
+            //return response()->json(["rows"=>$rows]);
+            
             Excel::import(new UsersImport, $file, \Maatwebsite\Excel\Excel::XLSX);
-            return back()->with('message', 'Importación exitosa');
+            $rows = Excel::toArray(new UsersImport,$file);
+            return response()->json(["rows"=>$rows]);
+            //return back()->with('message', 'Importación exitosa');
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
              $failures = $e->failures();
              
@@ -104,7 +109,8 @@ class ExcelController extends Controller
                  $failure->errors(); // Actual error messages from Laravel validator
                  $failure->values(); // The values of the row that has failed.
              }
-             var_dump($failure);
+             //var_dump($failure->errors(), $failure->row());
+             return back()->with('message', $failure->errors(), 'filas', $failure->row());
         }
     }
 
