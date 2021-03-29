@@ -17,7 +17,8 @@
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
         "maennchen/zipstream-php": "^2.1",
-        "stechstudio/laravel-zipstream": "^4.0"
+        "stechstudio/laravel-zipstream": "^4.0",
+        "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -9,11 +9,18 @@ use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow; /* Uso para cabeceras en el documento Excel */
 use Maatwebsite\Excel\Concerns\WithValidation;
+use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\RemembersRowNumber;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\SkipsOnFailure;
+use Maatwebsite\Excel\Concerns\SkipsFailures;
 
-class UsersImport implements ToModel, WithHeadingRow, WithValidation /* Penúltima parte es para las cabeceras del documento, última para validación de datos */
+class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalculatedFormulas, WithChunkReading /* Penúltima parte es para las cabeceras del documento, última para validación de datos */
 {
 
     use Importable;
+    use RemembersRowNumber;
 
     /**
      * @param array $row
@@ -28,6 +35,7 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation /* Penúlti
             'namefile' => $row['namefile']
         ]);*/
         //var_dump($response);
+        $currentRowNumber = $this->getRowNumber();
     }
 
     public function rules(): array
@@ -36,7 +44,8 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation /* Penúlti
         
         return [
             'consecutivo' => 'numeric|min:1',
-            'id_file' => Rule::findOrFail($validator),
+            'tipo_de_documento' => Rule::in($validator),
+            'tipo_de_documento' => 'min:1',
 
             // Above is alias for as it always validates in batches
             //'*.id_file' => Rule::in(['123456789', '987654321']),
@@ -60,11 +69,14 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation /* Penúlti
 
     public function customValidationMessages()
     {
+        $currentRowNumber = $this->getRowNumber();
+
         return [
             'id_file.in' => 'El campo :attribute. no tiene un valor válido',
             'id_file.numeric' => 'El campo :attribute. es únicamente numérico',
             'id_file.required' => 'El campo :attribute. es obligatorio y viene vacío en la fila :row',
-            'consecutivo.numeric' => 'El campo :attribute debe ser numérico. Error en la fila :row()'
+            'consecutivo.numeric' => 'El campo :attribute debe ser numérico. Error en la fila '.$currentRowNumber,
+            'tipo_de_documento.min' => 'El tipo de documento es un campo obligatorio, revisar la fila '. $currentRowNumber
         ];
     }
 
@@ -76,4 +88,19 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation /* Penúlti
         }
         return $doc;
     }
+
+    public function chunkSize(): int
+    {
+        return 10;
+    }
+
+    public function batchSize(): int
+    {
+        return 9;
+    }
+
+    /*public function onFailure(Failure ...$failures)
+    {
+        // Handle the failures how you'd like.
+    }*/
 }
