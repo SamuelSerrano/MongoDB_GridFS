@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\base;
 use App\Models\validaciones;
+use Exception;
 use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -35,7 +36,14 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalcul
             'namefile' => $row['namefile']
         ]);*/
         //var_dump($response);
-        $currentRowNumber = $this->getRowNumber();
+        try {
+        new base([
+            'consecutivo'  => $row['consecutivo'],
+        ]);
+        }
+        catch(Exception $e){
+            
+        }
     }
 
     public function rules(): array
@@ -46,6 +54,8 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalcul
             'consecutivo' => 'numeric|min:1',
             'tipo_de_documento' => Rule::in($validator),
             'tipo_de_documento' => 'min:1',
+            'primer_nombre' => 'min:1|alpha',
+            'otro' => 'min:1'
 
             // Above is alias for as it always validates in batches
             //'*.id_file' => Rule::in(['123456789', '987654321']),
@@ -76,7 +86,8 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalcul
             'id_file.numeric' => 'El campo :attribute. es únicamente numérico',
             'id_file.required' => 'El campo :attribute. es obligatorio y viene vacío en la fila :row',
             'consecutivo.numeric' => 'El campo :attribute debe ser numérico. Error en la fila '.$currentRowNumber,
-            'tipo_de_documento.min' => 'El tipo de documento es un campo obligatorio, revisar la fila '. $currentRowNumber
+            'tipo_de_documento.min' => 'El tipo de documento es un campo obligatorio, revisar la fila '. $currentRowNumber,
+            'primer_nombre.alpha' => 'El campo primer nombre debe contener solo letras'
         ];
     }
 
