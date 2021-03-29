@@ -35,6 +35,10 @@
         @if (Session::has('message2'))
             {{ Session::get('message2') }}
         @endif
+
+        @if (Session::has('message3'))
+            <p class="text-success"> {{  Session::get('message3') }} </p>
+        @endif
     </p>
     <!--a href="{{ route('users.export') }}"> Descargar datos en Excel </a-->
 </body>

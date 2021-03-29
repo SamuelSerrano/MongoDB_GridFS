@@ -94,11 +94,11 @@ return [
 
         'mongodb' => [
             'driver' => 'mongodb',
-            'host' => env('DB_HOST2', 'localhost'),
-            'port' => env('DB_PORT2', 27017),
-            'database' => env('DB_DATABASE2'),
-            'username' => env('DB_USERNAME2'),
-            'password' => env('DB_PASSWORD2'),
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', 27017),
+            'database' => env('DB_DATABASE'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
             'options' => [
                 'database' => 'styde' // sets the authentication database required by mongo 3
             ]

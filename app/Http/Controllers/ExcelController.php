@@ -7,6 +7,7 @@ use App\Models\base;
 use App\Exports\UsersExport;
 use App\Imports\UsersImport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Modules\moduleXML;
 
 class ExcelController extends Controller 
 {
@@ -100,7 +101,12 @@ class ExcelController extends Controller
                 
                 Excel::import(new UsersImport, $file, \Maatwebsite\Excel\Excel::XLSX);
                 $rows = Excel::toArray(new UsersImport,$file);
-                return response()->json(["rows"=>$rows]);
+                $datas = json_encode($rows);
+                //return $data;
+                //$this->XMLController->generateNominaXML($data);
+                $this->moduleXML = new moduleXML();
+                $this->moduleXML->generateNominaXML($datas);
+                
                 //return back()->with('message', 'Importación exitosa');
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
                  $failures = $e->failures();

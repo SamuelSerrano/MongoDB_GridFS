@@ -9,7 +9,8 @@ class Archivo extends MongoModel
 {
     use HasFactory;
     protected $connection = 'mongodb';
-    protected $collection = 'xml_nomina';
+    //protected $collection = 'xml_nomina';
+    protected $collection = 'fs.files';
 
     protected $fillable = [
         'idpgsql', 'cune','idfile','namefile' 
