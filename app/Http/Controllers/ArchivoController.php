@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Archivo;
 use App\Models\base;
+use App\Models\Nomina;
 use \MongoDB;
 use ZipStream;
 use ZipStream\Option\Archive;
@@ -91,11 +92,13 @@ class ArchivoController extends Controller
         /*$fh_date = time(); 
         $file_name = "nomina_$fh_date.xml";
         $fh = fopen($file_name, 'w') or die("Se produjo un error al crear el archivo");
-        fwrite($fh, $xmlstring) or die("No se pudo escribir en el archivo");
+        fwrite($fh, $req->$xmlstring) or die("No se pudo escribir en el archivo");
+        $bucket = (new MongoDB\Client)->test->selectGridFSBucket();
+        $id_bucket = $bucket->uploadFromStream($file_name, $file);
         fclose($fh);
 
         
-        $bucket = (new MongoDB\Client)->test->selectGridFSBucket();
+        /*$bucket = (new MongoDB\Client)->test->selectGridFSBucket();
         $file = fopen($file_name, 'rb');
         $id_bucket = $bucket->uploadFromStream($file_name, $file);
         var_dump($id_bucket);
@@ -148,40 +151,33 @@ class ArchivoController extends Controller
         $archivo = Archivo::where('_id',$id)
                     ->get();
         */
-        $archivo = base::where('id',$id)
+        $archivo = Nomina::where('id',$id)
                     ->get();
 
-        //$newsXML = new SimpleXMLElement(); 
-        //$bucket = (new MongoDB\Client)->test->selectGridFSBucket();
-        //$stream = $bucket->openDownloadStream($archivo[0]->id);
-         //$archivo[0]->xml;
-         //echo $archivo[0]->xml;
-         //print_r($archivo[0]->xml);
-       //return $archivo;
-
-       // SDSE SE arma el stream para descargar
-        $file_id = new \MongoDB\BSON\ObjectID($archivo[0]->id_file);
-        $bucket = (new MongoDB\Client)->repositorioNomina->selectGridFSBucket();
-        $stream = $bucket->openDownloadStream($file_id);
-        //$stream = $bucket->openDownloadStream($archivo[0]->idfile);
-        $contents = stream_get_contents($stream); 
         
-        if(str_contains($archivo[0]->namefile,".xml"))
-        {
-            $header = ['Content-Type' => 'application/xml',            
-            'Content-Disposition' => 'inline; filename="'.$archivo[0]->namefile.'"'];
-        }
+       // SDSE SE arma el stream para descargar
+       $mongoidfile = new MongoDB\BSON\ObjectId($archivo[0]->idfile);
 
-        if(str_contains($archivo[0]->namefile,".pdf"))
-        {
-            $header = ['Content-Type' => 'application/pdf',            
-            'Content-Disposition' => 'inline; filename="'.$archivo[0]->namefile.'"'];
-        }
-        if(str_contains($archivo[0]->namefile,".jpg"))
-        {
-            $header = ['Content-Type' => 'image/jpg',            
-            'Content-Disposition' => 'inline; filename="'.$archivo[0]->namefile.'"'];
-        }
+       $bucket = (new MongoDB\Client)->test->selectGridFSBucket();
+       $stream = $bucket->openDownloadStream($mongoidfile);
+       $contents = stream_get_contents($stream); 
+
+       if(str_contains($archivo[0]->filename,".xml"))
+       {
+           $header = ['Content-Type' => 'application/xml',            
+           'Content-Disposition' => 'inline; filename="'.$archivo[0]->namefile.'"'];
+       }
+
+       if(str_contains($archivo[0]->filename,".pdf"))
+       {
+           $header = ['Content-Type' => 'application/pdf',            
+           'Content-Disposition' => 'inline; filename="'.$archivo[0]->namefile.'"'];
+       }
+       if(str_contains($archivo[0]->filename,".jpg"))
+       {
+           $header = ['Content-Type' => 'image/jpg',            
+           'Content-Disposition' => 'inline; filename="'.$archivo[0]->filename.'"'];
+       }
         
         
         return response()->make($contents, 200,  $header);

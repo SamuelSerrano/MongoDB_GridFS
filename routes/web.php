@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArchivoController;
 use App\Http\Controllers\ExcelController;
+use App\Http\Controllers\XMLController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,3 +24,5 @@ Route::resource('excel', ExcelController::class);
 Route::get('comprimir',[ArchivoController::class,'comprimir']);
 Route::post('list_import', [ExcelController::class,'importar'])->name('users.import.excel');
 Route::get('list_export', [ExcelController::class,'exportar'])->name('users.export');
+
+Route::get('generarXML', [XMLController::class,'obtainJson'])->name('generarXML');
