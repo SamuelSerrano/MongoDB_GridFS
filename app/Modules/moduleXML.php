@@ -47,44 +47,21 @@ class moduleXML
                 $data = $xml->addChild($key, htmlspecialchars($line));  
             }else{
                 $obj = $xml->addChild($key);
-    
-                if(!empty($line['attribute'])){
-    
-                    $attr = explode(":",$line['attribute']);
-                    $obj->addAttribute($attr[0],$attr[1]);
-                    unset($line['attribute']);
+                foreach($line as $k=>$l)
+                {                    
+                    if (str_contains($k, '@')) $obj->addAttribute(str_replace('@','',$k),htmlspecialchars($l));
+                    else
+                    {
+                        if($key == $k) $obj[0] = htmlspecialchars($l);
+                        else $obj->addChild($k,$l);
+                    } 
                 }
-                convert($line, $obj);
+                                                  
             }
         }
         return $xml;
     }
     
-    /*public function insertXML($params)
-    {
-        $fh_date = time(); 
-        $file_name = "nomina_$fh_date.xml";
-        $fh = fopen($file_name, 'w') or die("Se produjo un error al crear el archivo");
-        fwrite($fh, $params['xmlstr']) or die("No se pudo escribir en el archivo"); 
-        fclose($fh);       
-        $bucket = (new MongoDB\Client)->test->selectGridFSBucket();
-        $file = fopen($file_name, 'rb');
-        $id_bucket = $bucket->uploadFromStream($file_name, $file);
-        
-        
-        
-
-        // SDSE - 10/03/2021
-        // Se almacena en MariaDB
-        $nomina = new Nomina;
-        $nomina->cune = $params['cune'];        
-        $nomina->idfile = $id_bucket;        
-        $nomina->filename = $file_name; 
-        $nomina->save();
-
-        return back()->with('message3', 'Generación de XML realizada exitosamente');
-    }*/
-
     public function insertXML($params)
     {
         $fh_date = time(); 
@@ -112,6 +89,7 @@ class moduleXML
         $nomina->filename = $file_name; 
         $nomina->save();
 
-        return back()->with('message3', 'Generación de XML realizada exitosamente');
+        //return back()->with('message3', 'Generación de XML realizada exitosamente');
+        return 'Generación de XML realizada exitosamente';
     }
 }

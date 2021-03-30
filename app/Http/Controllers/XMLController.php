@@ -43,8 +43,8 @@ class XMLController extends Controller
                'cune' => 'CUNE_'.time()
            ];
 
-           $this->moduleXML = new moduleXML();
-           echo $this->moduleXML->insertXML($params);
+          $this->moduleXML = new moduleXML();
+          echo $this->moduleXML->insertXML($params);
            
         }
         
@@ -64,14 +64,16 @@ class XMLController extends Controller
                 $data = $xml->addChild($key, htmlspecialchars($line));  
             }else{
                 $obj = $xml->addChild($key);
-    
-                if(!empty($line['attribute'])){
-    
-                    $attr = explode(":",$line['attribute']);
-                    $obj->addAttribute($attr[0],$attr[1]);
-                    unset($line['attribute']);
+                foreach($line as $k=>$l)
+                {                    
+                    if (str_contains($k, '@')) $obj->addAttribute(str_replace('@','',$k),htmlspecialchars($l));
+                    else
+                    {
+                        if($key == $k) $obj[0] = htmlspecialchars($l);
+                        else $obj->addChild($k,$l);
+                    } 
                 }
-                convert($line, $obj);
+                                                  
             }
         }
         return $xml;
