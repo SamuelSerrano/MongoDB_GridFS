@@ -13,12 +13,14 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\RemembersRowNumber;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Validators\Failure;
 
-class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalculatedFormulas, WithChunkReading /* Penúltima parte es para las cabeceras del documento, última para validación de datos */
+class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalculatedFormulas, WithChunkReading, WithBatchInserts, SkipsOnFailure, WithMultipleSheets  /* Penúltima parte es para las cabeceras del documento, última para validación de datos */
 {
 
     use Importable, SkipsFailures;
@@ -37,7 +39,8 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalcul
             'namefile' => $row['namefile']
         ]);*/
         //$row['nie002'] = \Carbon\Carbon::createFromFormat('Y-m-d', $row['nie002']);
-        //var_dump($row);
+        var_dump($row);
+        
     }
 
     public function rules(): array
@@ -113,4 +116,19 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalcul
     {
         return 2;
     }
+
+    public function onFailure(Failure ...$failures)
+    {
+        // Handle the failures how you'd like.
+    }
+
+    public function sheets(): array
+    {
+        return [
+            //'Hoja1' => new UsersImport(),
+            0 => new FirstSheetImport()
+        ];
+    }
 }
+
+

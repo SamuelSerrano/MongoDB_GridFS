@@ -7,6 +7,12 @@ use SimpleXMLElement;
 
 class moduleXML 
 {
+
+    public function exceldatetounix($exceldate)      
+    {
+        $newdate = ($exceldate - 25569) * 86400;
+           return gmdate("Y-m-d",$newdate);
+    }
     
     public function generateNominaXML($json)
     {
@@ -20,6 +26,14 @@ class moduleXML
         //var_dump($contenido);
         foreach($contenido[0] as $value)
         {
+          $validar = $this->fechas();
+          foreach($validar as $val) {
+            if (array_key_exists($val, $value)) {
+                $value[$val] = $this->exceldatetounix($value[$val]);
+            }
+          }
+            //$value['nie002'] = $this->exceldatetounix($value['nie002']);
+            //var_dump(array_keys($value));
            /* 
             // SDSE - 25/03/2021
             // Se recorre el json para armar el XML
@@ -46,6 +60,7 @@ class moduleXML
             'cune' => 'CUNE_'.time()
           ];*/
           //$datass = response()->view('header', compact('value'))->header('Content-Type', 'text/xml');
+          
           $output = \View::make('template.xml')->with(compact('value'))->render();
           $xml = "<?xml version=\"1.0\" ?>\n" . $output;
           $params =[
@@ -56,10 +71,16 @@ class moduleXML
           //return $datass;
           $this->moduleXML = new moduleXML();
           echo $this->moduleXML->insertXML($params);
-          //return view('header', compact('value'));
+          //return view('header', compact('value'));*/
+          //echo var_dump(array_keys($value)).'<br>';
+          
         }
         
-        
+    }
+
+    private function fechas() {
+        $campos = ['nie002', 'nie004', 'nie005', 'nie203'];
+        return $campos;
     }
 
     public function jsontoxml($array, &$xml)
