@@ -54,7 +54,7 @@ class moduleXML
             'cune' => 'CUNE_'.time()
           ];
           //return $datass;
-           $this->moduleXML = new moduleXML();
+          $this->moduleXML = new moduleXML();
           echo $this->moduleXML->insertXML($params);
           //return view('header', compact('value'));
         }
@@ -70,16 +70,14 @@ class moduleXML
                 $data = $xml->addChild($key, htmlspecialchars($line));  
             }else{
                 $obj = $xml->addChild($key);
-                foreach($line as $k=>$l)
-                {                    
-                    if (str_contains($k, '@')) $obj->addAttribute(str_replace('@','',$k),htmlspecialchars($l));
-                    else
-                    {
-                        if($key == $k) $obj[0] = htmlspecialchars($l);
-                        else $obj->addChild($k,$l);
-                    } 
+    
+                if(!empty($line['attribute'])){
+    
+                    $attr = explode(":",$line['attribute']);
+                    $obj->addAttribute($attr[0],$attr[1]);
+                    unset($line['attribute']);
                 }
-                                                  
+                convert($line, $obj);
             }
         }
         return $xml;
@@ -112,7 +110,6 @@ class moduleXML
         $nomina->filename = $file_name; 
         $nomina->save();
 
-        //return back()->with('message3', 'Generación de XML realizada exitosamente');
-        return 'Generación de XML realizada exitosamente';
+        return back()->with('message3', 'Generación de XML realizada exitosamente');
     }
 }

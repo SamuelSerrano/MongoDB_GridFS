@@ -92,6 +92,7 @@ class ExcelController extends Controller
 
     public function importar(Request $request) 
     {        
+        $i = 0;
         $ext = $file = $request->file('file')->extension();
         if($ext === 'xlsx' || $ext === 'xls') {
             $file = $request->file('file');
@@ -102,6 +103,9 @@ class ExcelController extends Controller
                 Excel::import(new UsersImport, $file, \Maatwebsite\Excel\Excel::XLSX);
                 $rows = Excel::toArray(new UsersImport,$file);
                 $datas = json_encode($rows);
+
+                $import = new UsersImport();
+                
                 //$datas = response()->json(["rows"=>$rows]);
                 //return $data;
                 //$this->XMLController->generateNominaXML($data);
@@ -110,6 +114,7 @@ class ExcelController extends Controller
                 
                 //return back()->with('message', 'Importación exitosa');
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                $i++;
                  $failures = $e->failures();
                  
                  foreach ($failures as $failure) {
@@ -117,10 +122,12 @@ class ExcelController extends Controller
                      $failure->attribute(); // either heading key (if using heading row concern) or column index
                      $failure->errors(); // Actual error messages from Laravel validator
                      $failure->values(); // The values of the row that has failed.
+                     
                  }
                  //var_dump($failure->errors(), $failure->row());
-                 return back()->with('message', $failure->errors(), 'filas', $failure->row());
+                 //return back()->with('message', $failure->errors(), 'filas', $failure->row());
             }
+            var_dump($i);
         }
         else {
             return back()->with('message2', 'El archivo no contiene un formato válido, debe cargar únicamente el formato XLSX entregado');

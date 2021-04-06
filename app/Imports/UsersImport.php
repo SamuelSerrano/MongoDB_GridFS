@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\RemembersRowNumber;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
@@ -20,7 +21,7 @@ use Maatwebsite\Excel\Concerns\SkipsFailures;
 class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalculatedFormulas, WithChunkReading /* Penúltima parte es para las cabeceras del documento, última para validación de datos */
 {
 
-    use Importable;
+    use Importable, SkipsFailures;
     use RemembersRowNumber;
 
     /**
@@ -44,11 +45,11 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalcul
         $validator = $this->validatorDB();        
         
         return [
-            'consecutivo' => 'numeric|min:1',
-            'tipo_de_documento' => Rule::in($validator),
-            'tipo_de_documento' => 'min:1',
-            'primer_nombre' => 'min:1|alpha',
-            'otro' => 'min:1'
+            'nie011' => 'numeric|min:1',
+            'nie044' => Rule::in($validator),
+            'nie044' => 'min:1',
+            'nie048' => 'min:1|alpha',
+            'nie011' => 'numeric|min:1',
 
             // Above is alias for as it always validates in batches
             //'*.id_file' => Rule::in(['123456789', '987654321']),
