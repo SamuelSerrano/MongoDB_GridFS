@@ -40,5 +40,6 @@
             <p class="text-success"> {{  Session::get('message3') }} </p>
         @endif
     </p>
+    <?php echo date('H:i:sP') ?>
     <!--a href="{{ route('users.export') }}"> Descargar datos en Excel </a-->
 </body>

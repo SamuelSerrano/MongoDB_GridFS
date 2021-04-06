@@ -20,6 +20,7 @@ class moduleXML
         //var_dump($contenido);
         foreach($contenido[0] as $value)
         {
+           /* 
             // SDSE - 25/03/2021
             // Se recorre el json para armar el XML
            $template = "<?xml version=\"1.0\"?><NominaIndividual></NominaIndividual>";
@@ -34,8 +35,30 @@ class moduleXML
 
            $this->moduleXML = new moduleXML();
            echo $this->moduleXML->insertXML($params);
-           
+           */
+
+          //return response()->view('header', compact('value'))->header('Content-Type', 'text/xml');
+          /*$output = \View::make('header')->with(compact('value'))->render();
+          $xml = "<?xml version=\"1.0\" ?>\n" . $output;*/
+          /*$params =[
+            'xmlstr' => $xml_nomina->asXML(),
+            'idpgsql' => 5,
+            'cune' => 'CUNE_'.time()
+          ];*/
+          //$datass = response()->view('header', compact('value'))->header('Content-Type', 'text/xml');
+          $output = \View::make('template.xml')->with(compact('value'))->render();
+          $xml = "<?xml version=\"1.0\" ?>\n" . $output;
+          $params =[
+            'xmlstr' => $xml,
+            'idpgsql' => 5,
+            'cune' => 'CUNE_'.time()
+          ];
+          //return $datass;
+           $this->moduleXML = new moduleXML();
+          echo $this->moduleXML->insertXML($params);
+          //return view('header', compact('value'));
         }
+        
         
     }
 
@@ -60,31 +83,6 @@ class moduleXML
         return $xml;
     }
     
-    /*public function insertXML($params)
-    {
-        $fh_date = time(); 
-        $file_name = "nomina_$fh_date.xml";
-        $fh = fopen($file_name, 'w') or die("Se produjo un error al crear el archivo");
-        fwrite($fh, $params['xmlstr']) or die("No se pudo escribir en el archivo"); 
-        fclose($fh);       
-        $bucket = (new MongoDB\Client)->test->selectGridFSBucket();
-        $file = fopen($file_name, 'rb');
-        $id_bucket = $bucket->uploadFromStream($file_name, $file);
-        
-        
-        
-
-        // SDSE - 10/03/2021
-        // Se almacena en MariaDB
-        $nomina = new Nomina;
-        $nomina->cune = $params['cune'];        
-        $nomina->idfile = $id_bucket;        
-        $nomina->filename = $file_name; 
-        $nomina->save();
-
-        return back()->with('message3', 'Generación de XML realizada exitosamente');
-    }*/
-
     public function insertXML($params)
     {
         $fh_date = time(); 

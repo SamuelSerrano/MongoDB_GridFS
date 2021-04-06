@@ -35,15 +35,8 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalcul
             'id_file'  => $row['id_file'],
             'namefile' => $row['namefile']
         ]);*/
-        //var_dump($response);
-        try {
-        new base([
-            'consecutivo'  => $row['consecutivo'],
-        ]);
-        }
-        catch(Exception $e){
-            
-        }
+        //$row['nie002'] = \Carbon\Carbon::createFromFormat('Y-m-d', $row['nie002']);
+        //var_dump($row);
     }
 
     public function rules(): array
@@ -114,4 +107,9 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalcul
     {
         // Handle the failures how you'd like.
     }*/
+
+    public function headingRow(): int
+    {
+        return 2;
+    }
 }

@@ -20,7 +20,10 @@ class ArchivoController extends Controller
     public function index()
     {
         //return  base::all();
-        return Archivo::all();
+        //return Archivo::all();
+        $pages = Archivo::all();
+
+        return response()->view('header', compact('pages'))->header('Content-Type', 'text/xml');
     }
 
     public function comprimir()
