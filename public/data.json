@@ -3,7 +3,7 @@
                 {
                 "Novedad":                      
                     {
-                    "Novedad": true,
+                    "Novedad": "true",
                     "@CUNENov": "pruebaCUNENOV"
                     },
                 "Periodo":
@@ -39,7 +39,7 @@
                     "@banco": 0,
                     "@tipo_cuenta": 0,
                     "@numero_cuenta": 0
-                },
+                },               
                 "FechasPagos":
                 {
                     "FechaPago":"2021-03-23"
