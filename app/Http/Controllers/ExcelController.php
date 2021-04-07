@@ -115,14 +115,24 @@ class ExcelController extends Controller
                     return back()->with('message', $message);
                 }
                 $rows = Excel::toArray(new UsersImport,$file);
+<<<<<<< HEAD
                 $datas = json_encode($rows);
                 
+=======
+
+                $datas = json_encode($rows);
+                //var_dump($datas);
+>>>>>>> 0cdf9219cfa640d3ded51f098a5c956c7d33ab0c
                 //$datas = response()->json(["rows"=>$rows]);
                 //return $data;
                 //$this->XMLController->generateNominaXML($data);
                 $this->moduleXML = new moduleXML();
+<<<<<<< HEAD
                 $this->moduleXML->generateNominaXML($datas);
                 return back()->with('message3', 'Importación exitosa');
+=======
+                return $this->moduleXML->generateNominaXML($datas);
+>>>>>>> 0cdf9219cfa640d3ded51f098a5c956c7d33ab0c
                 
             
                  //var_dump($failure->errors(), $failure->row());
