@@ -104,7 +104,6 @@ class ExcelController extends Controller
                 Excel::import(new UsersImport, $file, \Maatwebsite\Excel\Excel::XLSX);
                 $rows = Excel::toArray(new UsersImport,$file);
                 $datas = json_encode($rows);
-                
 
                 //$datas = response()->json(["rows"=>$rows]);
                 //return $data;

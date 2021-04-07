@@ -8,11 +8,11 @@ use SimpleXMLElement;
 class moduleXML 
 {
 
-    public function exceldatetounix($exceldate)      
+    /*public function exceldatetounix($exceldate)      
     {
         $newdate = ($exceldate - 25569) * 86400;
            return gmdate("Y-m-d",$newdate);
-    }
+    }*/
     
     public function generateNominaXML($json)
     {
@@ -26,12 +26,12 @@ class moduleXML
         //var_dump($contenido);
         foreach($contenido[0] as $value)
         {
-          $validar = $this->fechas();
+          /*$validar = $this->fechas();
           foreach($validar as $val) {
             if (array_key_exists($val, $value)) {
                 $value[$val] = $this->exceldatetounix($value[$val]);
             }
-          }
+          }*/
             //$value['nie002'] = $this->exceldatetounix($value['nie002']);
             //var_dump(array_keys($value));
            /* 
@@ -78,10 +78,10 @@ class moduleXML
         
     }
 
-    private function fechas() {
+    /*private function fechas() {
         $campos = ['nie002', 'nie004', 'nie005', 'nie203'];
         return $campos;
-    }
+    }*/
 
     public function jsontoxml($array, &$xml)
     {        
