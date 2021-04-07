@@ -103,13 +103,14 @@ class ExcelController extends Controller
                 
                 Excel::import(new UsersImport, $file, \Maatwebsite\Excel\Excel::XLSX);
                 $rows = Excel::toArray(new UsersImport,$file);
-                $datas = json_encode($rows);
 
+                $datas = json_encode($rows);
+                //var_dump($datas);
                 //$datas = response()->json(["rows"=>$rows]);
                 //return $data;
                 //$this->XMLController->generateNominaXML($data);
                 $this->moduleXML = new moduleXML();
-                $this->moduleXML->generateNominaXML($datas);
+                return $this->moduleXML->generateNominaXML($datas);
                 
                 //return back()->with('message', 'Importación exitosa');
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {

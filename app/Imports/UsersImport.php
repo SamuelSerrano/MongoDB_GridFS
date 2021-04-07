@@ -38,15 +38,15 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalcul
             'id_file'  => $row['id_file'],
             'namefile' => $row['namefile']
         ]);*/
-        $validar = $this->fechas();
+        /*$validar = $this->fechas();
           foreach($validar as $val) {
             if (array_key_exists($val, $row)) {
                 $row[$val] = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[$val]);
                 $row[$val] = $row[$val]->format('Y-m-d');
             }
           }
-        
-        var_dump($row);
+        */
+        //var_dump($row);
         
     }
 
@@ -138,10 +138,10 @@ class UsersImport implements ToModel, WithHeadingRow, WithValidation, WithCalcul
 
     //Lista de campos que debe aplicarse el cambio de formato a fecha
     //Se sugiere generar el listado desde base de datos para no tener que aplicar cambios al código cuando deba incluirse o eliminarse un campo
-    private function fechas() {
+    /*private function fechas() {
         $campos = ['nie002', 'nie004', 'nie005', 'nie203'];
         return $campos;
-    }
+    }*/
 }
 
 
