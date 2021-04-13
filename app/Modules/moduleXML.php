@@ -72,6 +72,8 @@ class moduleXML
             break;
             case 'hgmt': $formato = 'H:i:sP';
             break;
+            case 'y': $formato = 'y';
+            break;
             default: $formato = 'Y-m-d';
             break;
         }
@@ -90,6 +92,10 @@ class moduleXML
     {
         try
         {
+            //Consultar tipo ambiente desde model
+            //Consultar pin desde model
+
+
             // Se realiza la conversión al formato solicitado por el anexo
             $valdev_format = number_format($valdev,2,'.','');
             $valded_format = number_format($valded,2,'.','');
@@ -107,6 +113,46 @@ class moduleXML
            throw $e;
         }
     }
+
+    // SDSE - 13/04/2021
+    // Método encargado de armar el nombre de los archivos necesarios según anexo técnico.
+    // $tipoarchivo: 1=nie, 2=niae, 3=zip
+    // $nit: Nit empleador
+    // $consecutivo: Consecutivo interno para el tipo de archivo. (entero).
+    public function ArmarNombreArchivo($tipoarchivo,$nit,$consecutivo)
+    {
+        try{
+
+            // SDSE - 13/04/2021
+            // Se convierte el consecutivo a HEX
+            $hexConsecutivo = substr("00000000".dechex($consecutivo),-8);
+            $nitformat = (strlen($nit)<=10) ? substr("0000000000".$nit,-10) : substr($nit,0,10);
+            $year = $this->getDate('y');
+            
+            switch($tipoarchivo)
+            {
+                case 1:
+                    $nombrearchivo = 'nie'.$nitformat.$year.$hexConsecutivo.'.xml';
+                    break;
+                case 2:
+                    $nombrearchivo = 'niae'.$nitformat.$year.$hexConsecutivo.'.xml';
+                    break;
+                case 3:
+                    $nombrearchivo = 'z'.$nitformat.$year.$hexConsecutivo.'.zip';
+                    break;
+                default:
+                    $nombrearchivo = 'nie'.$nitformat.$year.$hexConsecutivo.'.xml';
+                    break;
+            }
+            return  $nombrearchivo;
+        }
+        catch(Throwable $e)
+        {
+           throw $e;
+        }
+    }
+
+    
 
     /*
     Fin Metodos de calculo
