@@ -5,8 +5,112 @@ use App\Models\Nomina;
 use \MongoDB;
 use SimpleXMLElement;
 
+/*Use new class calculosNomina */
+use DateTime;  
+use DateTimeZone;
+use Throwable;
+use number_format;
+use hash;
 class moduleXML 
 {
+    // SDSE 12/04/2021
+    // Función que calcula el tiempo laborado el trabajador en la empresa.
+    // $fechaingreso : Fecha de Ingreso del trabajador a la empresa, en formato AAAA-MM‐DD    
+    // $fechaliquidacioninicio: Fecha de Inicio del Periodo de liquidación del documento, en formato AAAA-MM‐DD
+    // $fechaliquidacionfin: Fecha de fin del Periodo de liquidación del documento, en formato AAAA-MM‐DD
+    // $fecharetiro (optional): Fecha de Retiro del trabajador a la empresa, en formato AAAA-MM‐DD
+    public function SetTiempoLaborado($fechaingreso, $fechaliquidacioninicio, $fechaliquidacionfin, $fecharetiro=null){
+        try
+        {                      
+            // SDSE 14/04/2021
+            // Se inicializan las variables 
+            $fechainicio = new DateTime($fechaingreso);    
+            $fechafin = (!is_null($fecharetiro)) ?  new DateTime($fecharetiro) :  new DateTime($fechaliquidacionfin);
+            
+            // Se aplica el la función datediff
+            $diff = $fechainicio->diff($fechafin);
+
+            // Se obtienen los años, meses y días de la diferencia de fechas
+            $year = $diff->y;
+            $month = $diff->m;
+            $day = $diff->d;
+
+            // Se aplica la formula del anexo técnico 8.3.1. Cálculo de Tiempo Laborado
+            $tiempolaborado = ($year*360)+($month*30)+$day;
+
+            //return "Año ".$year." Mes: ".$month." Dias: ".$day." (".$tiempolaborado.")";
+            return $tiempolaborado;
+        }
+        catch(Throwable $e)
+        {
+           throw $e;
+        }
+    }
+
+    //SDSE - 12/04/2021
+    // Funcion encargada de crear el Numero de consecutivo NIE012 (NIE010 + NIE011)        
+    public function SetNumeroSecuencia($consecutivo,$prefijo="")
+    {
+        $numero = $prefijo.(string)$consecutivo;
+        return $numero;
+    }
+
+    // SDSE - 12/04/2021
+    // Se calcula la fecha actual dependiendo el formato especificado para la Zona Horaria de Colombia
+    // $format Ymd  = YYYY-MM-DD 
+    //         Ymdh = YYYY‐MM‐DDTHH:MM:SS
+    //         h    = HH:MM:SS
+    public function getDate($format)
+    {        
+        switch($format)
+        {
+            case 'ymd': $formato = 'Y-m-d';
+            break;
+            case 'ymdh': $formato = 'Y-m-d\TH:i:s';
+            break;
+            case 'h': $formato = 'H:i:s';
+            break;
+            case 'hgmt': $formato = 'H:i:sP';
+            break;
+            default: $formato = 'Y-m-d';
+            break;
+        }
+        $date = new DateTime();
+        $date->setTimezone(new DateTimeZone("America/Bogota"));
+        return  $date->format($formato);
+    }
+
+    // SDSE - 04/12/2021
+    // Método para armar el CUNE según anexo técnico
+    // $fecne: usar metodo getDate('ymd')
+    // $horne: usar metodo getDate('hgmt')
+    // $valdev: Total Devengos
+    // $valded:Total Deducciones
+    public function getCUNE($numne,$fecne,$horne,$valdev,$valded,$nitne,$docemp,$tipoxml,$pin,$tipoamb)
+    {
+        try
+        {
+            // Se realiza la conversión al formato solicitado por el anexo
+            $valdev_format = number_format($valdev,2,'.','');
+            $valded_format = number_format($valded,2,'.','');
+            $valtolne = number_format($valdev_format - $valded_format,2,'.','');
+
+            // Se realiza la concatenacion segun anexo tecnico
+            $cune = (string)$numne.(string)$fecne.(string)$horne.(string)$valdev_format.(string)$valded_format.(string)$valtolne.(string)$nitne.(string)$docemp.(string)$tipoxml.(string)$pin.(string)$tipoamb; 
+
+            // Se realiza la encripcion con SHA384
+            $cunesha = hash('sha384',$cune);
+            return $cunesha;
+        }
+        catch(Throwable $e)
+        {
+           throw $e;
+        }
+    }
+
+    /*
+    Fin Metodos de calculo
+    */
 
     public function exceldatetounix($exceldate)      
     {

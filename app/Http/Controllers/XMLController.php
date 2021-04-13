@@ -12,13 +12,30 @@ class XMLController extends Controller
 
     public function obtainJson()
     {
-        $data = file_get_contents("data.json");
+        /*$data = file_get_contents("data.json");
         $data_json = json_decode($data, true);
         $respuesta = $this->generateNominaXML($data);
-        
- 
+        */
+        try
+        {
+        $fechaingreso="AEIOU"; 
+        $fecharetiro="2020-05-23";
+        $fechaliquidacioninicio="2021-04-01"; 
+        $fechaliquidacionfin="2021-04-30"; 
+        $this->moduleXML = new moduleXML();        
+        //$respuesta = $this->moduleXML->SetTiempoLaborado($fechaingreso, $fechaliquidacioninicio,$fechaliquidacionfin,$fecharetiro);
+        //$respuesta = $this->moduleXML->SetNumeroSecuencia(1001,"XYZ");
+        //$respuesta = $this->moduleXML->getDate('hgmt');
+        $respuesta = $this->moduleXML->getCUNE("N00001",$this->moduleXML->getDate('ymd'),$this->moduleXML->getDate('hgmt'),5000450.25,1000000.75,'700085371','800199436',102,693,1);
         return $respuesta;
+        }
+        catch(\Throwable $error)
+        {
+            return $error->getMessage();
+        }
+        
     }
+
 
     public function generateNominaXML($json)
     {
