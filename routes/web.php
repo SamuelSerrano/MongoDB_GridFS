@@ -22,6 +22,7 @@ Route::get('/', function () {
 Route::resource('archivos', ArchivoController::class);
 Route::resource('excel', ExcelController::class);
 Route::get('comprimir',[ArchivoController::class,'comprimir']);
+Route::get('create',[ArchivoController::class,'create']);
 Route::post('list_import', [ExcelController::class,'importar'])->name('users.import.excel');
 Route::get('list_export', [ExcelController::class,'exportar'])->name('users.export');
 

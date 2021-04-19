@@ -10,6 +10,7 @@ use \MongoDB;
 use ZipStream;
 use ZipStream\Option\Archive;
 
+
 class ArchivoController extends Controller
 {
     /**
@@ -28,26 +29,42 @@ class ArchivoController extends Controller
 
     public function comprimir()
     {
-        // SDSE - 16/03/2021
-        // Se consultan tres archivos desde MongoDB
-        $archivos = Archivo::where('idpgsql','>=',10)
-                    ->get();
+        //$zip_object = (function() {
+                // SDSE - 16/03/2021
+                // Se consultan tres archivos desde MongoDB
+                $archivos = Nomina::where('id','>=',91)
+                ->get();
+
+
+
+                $options = new Archive();
+                $options_out = $options->getOutputStream();
+                $options->setOutputStream($options_out);
+                $options->setSendHttpHeaders(false);
+                $zip = new ZipStream\ZipStream('example2.zip', $options);
+
+
+                $bucket = (new MongoDB\Client)->repositorioNomina->selectGridFSBucket();             
+                foreach($archivos as $archivo)
+                {
+                $mongoidfile = new MongoDB\BSON\ObjectId($archivo->idfile);
+                $stream = $bucket->openDownloadStream($mongoidfile);
+                $zip->addFileFromStream($archivo->filename, $stream);            
+                }                  
+                //application/octet-stream
+                $zip->finish();
+                $contents = stream_get_contents($options_out); 
+                $header = ['Content-Type' => 'application/zip',            
+                'Content-Disposition' => 'inline; filename=demo.zip'];
+                 return response()->make($contents, 200,$header);
+
+                
+               
+                
+
+        //});
         
-        
-
-        $options = new Archive();
-        $options->setSendHttpHeaders(true);
-        $zip = new ZipStream\ZipStream('example2.zip', $options);
-
-
-        $bucket = (new MongoDB\Client)->repositorioNomina->selectGridFSBucket();             
-        foreach($archivos as $archivo)
-        {
-            $stream = $bucket->openDownloadStream($archivo->idfile);
-            $zip->addFileFromStream($archivo->namefile, $stream);            
-        }
-        $zip->finish();
-
+        //dd($zip_object);
         return "function comprimir";
     }
 
@@ -109,7 +126,7 @@ class ArchivoController extends Controller
 
         // SDSE 15/03/2021
         // Prueba Accediendo a un archivo para almacenarlo en la BD.
-        $file_name = "XML_Prueba.xml";
+        $file_name = "data.json";
         $bucket = (new MongoDB\Client)->repositorioNomina->selectGridFSBucket();
         $file = fopen($file_name, 'rb');
         $id_bucket = $bucket->uploadFromStream($file_name, $file);
@@ -118,13 +135,12 @@ class ArchivoController extends Controller
 
         // SDSE - 10/03/2021
         // Se almacena en MongoDB
-        $archivo = new Archivo;
-        $archivo->idpgsql = $idpgsql;
+        $archivo = new Nomina;
         $archivo->cune = $cune;
         //$archivo->xml = $newsXML;        
         //$archivo->xml = $bucket;        
         $archivo->idfile = $id_bucket;        
-        $archivo->namefile = $file_name;        
+        $archivo->filename = $file_name;        
         $archivo->save();
         
         return 'Archivo creado';
@@ -161,7 +177,7 @@ class ArchivoController extends Controller
        // SDSE SE arma el stream para descargar
        $mongoidfile = new MongoDB\BSON\ObjectId($archivo[0]->idfile);
 
-       $bucket = (new MongoDB\Client)->test->selectGridFSBucket();
+       $bucket = (new MongoDB\Client)->repositorioNomina->selectGridFSBucket();
        $stream = $bucket->openDownloadStream($mongoidfile);
        $contents = stream_get_contents($stream); 
 
