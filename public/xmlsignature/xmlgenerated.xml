@@ -1,0 +1,289 @@
+<?xml version="1.0" ?>
+<NominaIndividual xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2">
+    <ext:UBLExtensions>
+		<ext:UBLExtension>
+			<ext:ExtensionContent>
+			</ext:ExtensionContent>
+		</ext:UBLExtension>
+	</ext:UBLExtensions>
+    <Novedad CUNENov="545aa04484c5fd7c46d9f4fe1f221ee3a4001c4a0d4b077746cc1266828a8e5d313d3acb6e91854628e7bd677979c5be">true</Novedad>
+
+<Periodo FechaIngreso="2021-04-01" FechaRetiro="2021-04-01"
+    FechaLiquidacionInicio="2021-04-01" FechaLiquidacionFin="2021-04-30"
+    TiempoLaborado="0" FechaGen="2021-05-03" />
+
+
+<NumeroSecuenciaXML CodigoTrabajador=""
+    Prefijo="prefijo"
+    Consecutivo="7"
+    Numero="prefijo7" />
+
+<LugarGeneracionXML Pais="CO"
+    DepartamentoEstado="11"
+    MunicipioCiudad="11001"
+    Idioma="ES" />
+
+<ProveedorXML RazonSocial=""
+    PrimerApellido=""
+    SegundoApellido=""
+    PrimerNombre=""
+    OtrosNombres="" NIT="0"
+    DV="0" SoftwareID="1"
+    SoftwareSC="1" />
+
+<CodigoQR>https://catalogovpfe.dian.gov.co/document/searchqr?documentkey=fa5f170b27190144982977edd38fae7c64d1154e15309aa81dc0736e783a38bbeea89f9c489dac6b3fc22758c1678dfa</CodigoQR>
+ 
+    <InformacionGeneral
+    Version="V1.0: Documento Soporte de Pago de Nómina Electrónica"
+    Ambiente="1"
+    TipoXML="102"
+    CUNE="fa5f170b27190144982977edd38fae7c64d1154e15309aa81dc0736e783a38bbeea89f9c489dac6b3fc22758c1678dfa"
+    EncripCUNE="CUNE-SHA384"
+    FechaGen="2021-10-30" HoraGen="09:49:58-05:00"
+    PeriodoNomina="1"
+    TipoMoneda="COP"
+    TRM="0" />
+
+            <Notas>Nota1</Notas>
+            <Notas>Nota2</Notas>
+            <Notas>Nota3</Notas>
+    
+<Empleador RazonSocial=""
+    PrimerApellido=""
+    SegundoApellido="" PrimerNombre=""
+    OtrosNombres="" NIT="800012345"
+    DV="8" Pais="CO"
+    DepartamentoEstado="11" MunicipioCiudad="11001"
+    Direccion="1" />
+
+<Trabajador TipoTrabajador="01"
+    SubTipoTrabajador="00"
+    AltoRiesgoPension="false" TipoDocumento="13"
+    NumeroDocumento="1030624785" PrimerApellido="1"
+    SegundoApellido="1" PrimerNombre="1"
+    OtrosNombres=""
+    LugarTrabajoPais="CO"
+    LugarTrabajoDepartamentoEstado="11"
+    LugarTrabajoMunicipioCiudad="11001"
+    LugarTrabajoDireccion="1"
+    SalarioIntegral="true" TipoContrato="1"
+    Sueldo="1000000" CodigoTrabajador="" />
+
+<Pago Forma="1" Metodo="2"
+    Banco="" TipoCuenta=""
+    NumeroCuenta="" />
+
+<FechasPagos>
+            <FechaPago>2021-04-30</FechaPago>
+            <FechaPago>2021-04-29</FechaPago>
+            <FechaPago>2021-05-31</FechaPago>
+    </FechasPagos>
+ 
+    <Devengados>
+    <Basico DiasTrabajados="0"
+        SueldoTrabajado="0" />
+
+            <Transporte AuxilioTransporte="0"
+            ViaticoManuAlojS="0"
+            ViaticoManuAlojNS="0" />
+            <Transporte AuxilioTransporte="0"
+            ViaticoManuAlojS="0"
+            ViaticoManuAlojNS="0" />
+    
+            <HEDs>
+                            <HED HoraInicio="YYYY-MM-DDTHH:MM:SS" HoraFin="YYYY-MM-DDTHH:MM:SS"
+                    Cantidad="2" Porcentaje="25.00" Pago="2083.33" />
+                            <HED HoraInicio="YYYY-MM-DDTHH:MM:SS" HoraFin="YYYY-MM-DDTHH:MM:SS"
+                    Cantidad="1" Porcentaje="25.00" Pago="1041.67" />
+                    </HEDs>
+    
+            <HENs>
+                            <HEN HoraInicio="YYYY-MM-DDTHH:MM:SS" HoraFin="YYYY-MM-DDTHH:MM:SS"
+                    Cantidad="1" Porcentaje="75.00"
+                    Pago="3125" />
+                    </HENs>
+    
+            <HRNs>
+                            <HRN HoraInicio="YYYY-MM-DDTHH:MM:SS" HoraFin="YYYY-MM-DDTHH:MM:SS"
+                    Cantidad="4" Porcentaje="35.00"
+                    Pago="5833.33" />
+                    </HRNs>
+    
+            <HEDDFs>
+                            <HEDDF HoraInicio="YYYY-MM-DDTHH:MM:SS" HoraFin="YYYY-MM-DDTHH:MM:SS"
+                    Cantidad="6" Porcentaje="100.00"
+                    Pago="25000" />
+                    </HEDDFs>
+    
+            <HRDDFs>
+                            <HRDDF HoraInicio="YYYY-MM-DDTHH:MM:SS" HoraFin="YYYY-MM-DDTHH:MM:SS"
+                    Cantidad="3" Porcentaje="75.00"
+                    Pago="9375" />
+                    </HRDDFs>
+    
+            <HENDFs>
+                            <HENDF HoraInicio="YYYY-MM-DDTHH:MM:SS" HoraFin="YYYY-MM-DDTHH:MM:SS"
+                    Cantidad="2" Porcentaje="150.00"
+                    Pago="12500" />
+                    </HENDFs>
+    
+            <HRNDFs>
+                            <HRNDF HoraInicio="YYYY-MM-DDTHH:MM:SS" HoraFin="YYYY-MM-DDTHH:MM:SS"
+                    Cantidad="8" Porcentaje="110.00"
+                    Pago="36666.67" />
+                    </HRNDFs>
+    
+            <Vacaciones>
+                                                <VacacionesComunes FechaInicio="2021-05-30"
+                        FechaFin="2021-06-20" Cantidad="0"
+                        Pago="0" />
+                            
+                                                <VacacionesCompensadas Cantidad="0" Pago="0" />
+                                    </Vacaciones>
+    
+            <Primas Cantidad="0"
+            Pago="0"
+            PagoNS="0" />
+    
+            <Cesantias Pago="0"
+            Porcentaje="0"
+            PagoIntereses="0" />
+    
+            <Incapacidades>
+                            <Incapacidad FechaInicio="2021-04-30"
+                    FechaFin="2021-05-02" Cantidad="0"
+                    Tipo="1" Pago="0" />
+                    </Incapacidades>
+    
+            <Licencias>
+                                                <LicenciaMP FechaInicio="2021-04-30"
+                        FechaFin="2021-04-30" Cantidad="0"
+                        Pago="0" />
+                            
+                                                <LicenciaR FechaInicio="2021-04-30"
+                        FechaFin="2021-04-30" Cantidad="0"
+                        Pago="0" />
+                            
+                                                <LicenciaNR FechaInicio="2021-04-30"
+                        FechaFin="2021-04-30" Cantidad="22" />
+                                    </Licencias>
+    
+            <Bonificaciones>
+                            <Bonificacion BonificacionS="0"
+                    BonificacionNS="0" />
+                    </Bonificaciones>
+    
+            <Auxilios>
+                            <Auxilio AuxilioS="0" AuxilioNS="0" />
+                    </Auxilios>
+    
+            <HuelgasLegales>
+                            <HuelgaLegal FechaInicio="2021-04-30" FechaFin="2021-04-30"
+                    Cantidad="0" />
+                    </HuelgasLegales>
+    
+            <OtrosConceptos>
+                            <OtroConcepto DescripcionConcepto="prueba"
+                    ConceptoS="0" ConceptoNS="0" />
+                    </OtrosConceptos>
+    
+            <Compensaciones>
+                            <Compensacion CompensacionO="0"
+                    CompensacionE="0" />
+                    </Compensaciones>
+    
+            <BonoEPCTVs>
+                            <BonoEPCTV PagoS="0" PagoNS="0"
+                    PagoAlimentacionS="0"
+                    PagoAlimentacionNS="0" />
+                    </BonoEPCTVs>
+    
+            <Comisiones>
+                            <Comision>0</Comision>
+                    </Comisiones>
+    
+            <PagoTerceros>
+                            <PagoTercero>0</PagoTercero>
+                    </PagoTerceros>
+    
+            <Anticipos>
+                            <Anticipo>0</Anticipo>
+                    </Anticipos>
+    
+            <Dotacion>0</Dotacion>
+    
+            <ApoyoSost>0</ApoyoSost>
+    
+            <Teletrabajo>0</Teletrabajo>
+    
+    
+    
+            <Reintegro>0</Reintegro>
+    </Devengados>
+ 
+    <Deducciones>
+    <Salud Porcentaje="25.50"
+        Deduccion="0" />
+
+    <FondoPension Porcentaje="120.00"
+        Deduccion="0" />
+
+            <FondoSP Porcentaje="100.00"
+            DeduccionSP="0"
+            PorcentajeSub="100.00"
+            DeduccionSub="0" />
+    
+            <Sindicatos>
+                            <Sindicato Porcentaje="0" Deduccion="0" />
+                    </Sindicatos>
+    
+            <Sanciones>
+                            <Sancion SancionPublic="0" SancionPriv="0" />
+                    </Sanciones>
+    
+            <Libranzas>
+                            <Libranza Descripcion="0" Deduccion="0" />
+                    </Libranzas>
+    
+            <PagosTerceros>
+                            <PagoTercero>0</PagoTercero>
+                    </PagosTerceros>
+    
+            <Anticipos>
+                            <Anticipo>0</Anticipo>
+                    </Anticipos>
+    
+            <OtrasDeducciones>
+                            <OtraDeduccion>0</OtraDeduccion>
+                    </OtrasDeducciones>
+    
+            <PensionVoluntaria>0</PensionVoluntaria>
+    
+            <RetencionFuente>0</RetencionFuente>
+    
+            <AFC>0</AFC>
+    
+            <Cooperativa>0</Cooperativa>
+    
+            <EmbargoFiscal>0</EmbargoFiscal>
+    
+            <PlanComplementarios>0</PlanComplementarios>
+    
+            <Educacion>0</Educacion>
+    
+            <Reintegro>0</Reintegro>
+    
+            <Deuda>0</Deuda>
+    
+</Deducciones>
+
+ 
+
+            <Redondeo>0</Redondeo>
+    
+    <DevengadosTotal>150</DevengadosTotal>
+    <DeduccionesTotal>100</DeduccionesTotal>
+    <ComprobanteTotal>50</ComprobanteTotal>
+
+</NominaIndividual>
+
